@@ -16,7 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { ChartProps, TimeseriesDataRecord } from '@superset-ui/core';
+import { ChartProps, getMetricLabel, TimeseriesDataRecord } from '@superset-ui/core';
+
 
 export default function transformProps(chartProps: ChartProps) {
   /**
@@ -52,12 +53,25 @@ export default function transformProps(chartProps: ChartProps) {
   const { boldText, headerFontSize, headerText } = formData;
   const data = queriesData[0].data as TimeseriesDataRecord[];
 
-  console.log('formData via TransformProps.ts', formData);
+  const keyNames = [ formData.cols[0], formData.metric.label, formData.metric2.label, "range"];
 
+  // console.log(dimName, metricStartName, metricEndName);
+  // console.log('formData via TransformProps.ts', formData);
+  console.log('data via TransformProps.ts', data);
+  console.log('Adding range');
+  data.forEach((obj : any)=>{
+    const start = obj[keyNames[1]];
+    const end = obj[keyNames[1]]+obj[keyNames[2]];
+    obj.range = [Math.round(start), Math.round(end)];
+  });
+  console.log('Sorting data');
+  data.sort((a,b) => (a[keyNames[1]] > b[keyNames[1]]) ? 1 : ((b[keyNames[1]] > a[keyNames[1]]) ? -1 : 0));
+  console.log('data via TransformProps.ts', data);
   return {
     width,
     height,
     data,
+    keyNames,
     // and now your control data, manipulated as needed, and passed through as props!
     boldText,
     headerFontSize,

@@ -19,6 +19,7 @@
 import React, { useEffect, createRef } from 'react';
 import { styled } from '@superset-ui/core';
 import { WaterfallShazRegularPluginProps, WaterfallShazRegularPluginStylesProps } from './types';
+import { Bar } from '@ant-design/plots';
 
 // The following Styles component is a <div> element, which has been styled using Emotion
 // For docs, visit https://emotion.sh/docs/styled
@@ -60,7 +61,7 @@ const Styles = styled.div<WaterfallShazRegularPluginStylesProps>`
 export default function WaterfallShazRegularPlugin(props: WaterfallShazRegularPluginProps) {
   // height and width are the height and width of the DOM element as it exists in the dashboard.
   // There is also a `data` prop, which is, of course, your DATA 🎉
-  const { data, height, width } = props;
+  const { data, keyNames, height, width } = props;
 
   const rootElem = createRef<HTMLDivElement>();
 
@@ -73,6 +74,26 @@ export default function WaterfallShazRegularPlugin(props: WaterfallShazRegularPl
 
   console.log('Plugin props', props);
 
+  const config = {
+    data: data,
+    width: 600,
+    padding: 'auto',
+    // appendPadding: 25,
+    color: 'green',
+    // data: data__.reverse(),
+    xField: keyNames[3],
+    yField: keyNames[0],
+    isRange: false,
+    label: {
+      position: 'middle',
+      layout: [
+        {
+          type: 'adjust-color',
+        },
+      ],
+    },
+  };
+
   return (
     <Styles
       ref={rootElem}
@@ -81,8 +102,9 @@ export default function WaterfallShazRegularPlugin(props: WaterfallShazRegularPl
       height={height}
       width={width}
     >
-      <h3>{props.headerText}</h3>
-      <pre>${JSON.stringify(data, null, 2)}</pre>
+      {/* <h3>{props.headerText}</h3>
+      <pre>${JSON.stringify(data, null, 2)}</pre> */}
+      <Bar {...config} />
     </Styles>
   );
 }

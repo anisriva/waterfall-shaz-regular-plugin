@@ -25,6 +25,10 @@ export interface WaterfallShazRegularPluginStylesProps {
   boldText: boolean;
 }
 
+interface WaterfallShazRegularPluginKeyNames {
+  keyNames: Array<string>;
+}
+
 interface WaterfallShazRegularPluginCustomizeProps {
   headerText: string;
 }
@@ -34,6 +38,7 @@ export type WaterfallShazRegularPluginQueryFormData = QueryFormData &
   WaterfallShazRegularPluginCustomizeProps;
 
 export type WaterfallShazRegularPluginProps = WaterfallShazRegularPluginStylesProps &
+WaterfallShazRegularPluginKeyNames &
   WaterfallShazRegularPluginCustomizeProps & {
     data: TimeseriesDataRecord[];
     // add typing here for the props you pass in from transformProps.ts!

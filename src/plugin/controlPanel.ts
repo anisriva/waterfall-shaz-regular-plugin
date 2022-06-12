@@ -17,6 +17,7 @@
  * under the License.
  */
 import { t, validateNonEmpty } from '@superset-ui/core';
+import { ControlConfig, SelectControlConfig } from '@superset-ui/chart-controls/lib/types';
 import { ControlPanelConfig, sections, sharedControls } from '@superset-ui/chart-controls';
 
 const config: ControlPanelConfig = {
@@ -106,22 +107,35 @@ const config: ControlPanelConfig = {
             name: 'cols',
             config: {
               ...sharedControls.groupby,
-              label: t('Columns'),
-              description: t('Columns to group by'),
+              label: t('Dimension'),
+              description: t('Dimension to group by'),
             },
           },
         ],
         [
           {
-            name: 'metrics',
+            name: 'metric',
             config: {
-              ...sharedControls.metrics,
+              ...sharedControls.metric,
+              label: t('Metric Start'),
               // it's possible to add validators to controls if
               // certain selections/types need to be enforced
               validators: [validateNonEmpty],
             },
           },
         ],
+        [
+          {
+            name: 'metric_2',
+            config: {
+              ...sharedControls.metric_2,
+              label: t('Metric End'),
+              // it's possible to add validators to controls if
+              // certain selections/types need to be enforced
+              validators: [validateNonEmpty],
+            },
+          },
+        ],        
         ['adhoc_filters'],
         [
           {
