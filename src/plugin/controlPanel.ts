@@ -17,7 +17,6 @@
  * under the License.
  */
 import { t, validateNonEmpty } from '@superset-ui/core';
-import { ControlConfig, SelectControlConfig } from '@superset-ui/chart-controls/lib/types';
 import { ControlPanelConfig, sections, sharedControls } from '@superset-ui/chart-controls';
 
 const config: ControlPanelConfig = {
@@ -146,56 +145,120 @@ const config: ControlPanelConfig = {
       ],
     },
     {
-      label: t('Hello Controls!'),
+      label: t('Customize Chart'),
       expanded: true,
       controlSetRows: [
         [
           {
-            name: 'header_text',
+            name: 'x_label_text',
             config: {
               type: 'TextControl',
-              default: 'Hello, World!',
+              default: 'Metrics',
               renderTrigger: true,
               // ^ this makes it apply instantaneously, without triggering a "run query" button
-              label: t('Header Text'),
-              description: t('The text you want to see in the header'),
+              label: t('X Axis Label'),
+              description: t('The text you want to see in the chart X - Axis'),
+            },
+          },
+          // {
+          //   name: 'x_label_font_size',
+          //   config: {
+          //     type: 'TextControl',
+          //     default: 10,
+          //     renderTrigger: true,
+          //     // ^ this makes it apply instantaneously, without triggering a "run query" button
+          //     label: t('Font Size'),
+          //     description: t('The font size for the header'),
+          //   },
+          // },
+        ],
+        // [
+        //   {
+        //     name: 'y_label_font_size',
+        //     config: {
+        //       type: 'TextControl',
+        //       default: 10,
+        //       renderTrigger: true,
+        //       // ^ this makes it apply instantaneously, without triggering a "run query" button
+        //       label: t('Y-Axis Label Font Size'),
+        //       description: t('The font size for the y-Axis Label'),
+        //     },
+        //   }            
+        // ],
+        [
+          {
+            name: 'min_max_plot',
+            config: {
+              type: 'BoundsControl',
+              default: 0,
+              renderTrigger: true,
+              // ^ this makes it apply instantaneously, without triggering a "run query" button
+              label: t('Tick Range Bound'),
+              description: t('Min and max tick to start X-Axis'),
             },
           },
         ],
         [
           {
-            name: 'bold_text',
+            name: 'tick_interval',
+            config: {
+              type: 'TextControl',
+              default: 2,
+              renderTrigger: true,
+              // ^ this makes it apply instantaneously, without triggering a "run query" button
+              label: t('Tick Interval'),
+              description: t('Number of intervals of ticks on the X-Axis'),
+            },
+          }                  
+          ,
+          {
+            name: 'sub_tick_count',
+            config: {
+              type: 'TextControl',
+              default: 10,
+              renderTrigger: true,
+              // ^ this makes it apply instantaneously, without triggering a "run query" button
+              label: t('Sub Tick Count'),
+              description: t('Number of ticks per intervals on the X-Axis'),
+            },
+          }                  
+        ],        
+        [
+          {
+            name: 'dark_mode',
             config: {
               type: 'CheckboxControl',
-              label: t('Bold Text'),
+              label: t('Dark Mode'),
               renderTrigger: true,
               default: true,
-              description: t('A checkbox to make the '),
+              description: t('A checkbox to change the chart theme.'),
             },
           },
+        
+          {
+            name: 'show_bar_label',
+            config: {
+              type: 'CheckboxControl',
+              label: t('Show Bar Labels'),
+              renderTrigger: true,
+              default: false,
+              description: t('A checkbox to show the bar label metrics.'),
+            },
+          }
         ],
         [
           {
-            name: 'header_font_size',
+            name: 'bar_color',
             config: {
-              type: 'SelectControl',
-              label: t('Font Size'),
-              default: 'xl',
-              choices: [
-                // [value, label]
-                ['xxs', 'xx-small'],
-                ['xs', 'x-small'],
-                ['s', 'small'],
-                ['m', 'medium'],
-                ['l', 'large'],
-                ['xl', 'x-large'],
-                ['xxl', 'xx-large'],
-              ],
+              type: 'ColorPickerControl',
+              label: t('Bar Color'),
               renderTrigger: true,
-              description: t('The size of your header font'),
+              default: "#green",
+              description: t('Pick bar color'),
             },
-          },
-        ],
+          },          
+        ]
+        
       ],
     },
   ],

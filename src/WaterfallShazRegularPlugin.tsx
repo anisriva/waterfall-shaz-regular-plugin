@@ -61,7 +61,9 @@ const Styles = styled.div<WaterfallShazRegularPluginStylesProps>`
 export default function WaterfallShazRegularPlugin(props: WaterfallShazRegularPluginProps) {
   // height and width are the height and width of the DOM element as it exists in the dashboard.
   // There is also a `data` prop, which is, of course, your DATA 🎉
-  const { data, keyNames, height, width } = props;
+  const { data, keyNames, height, width, customProps } = props;
+
+  console.log('customProps via MainChart', customProps);
 
   const rootElem = createRef<HTMLDivElement>();
 
@@ -75,23 +77,164 @@ export default function WaterfallShazRegularPlugin(props: WaterfallShazRegularPl
   console.log('Plugin props', props);
 
   const config = {
-    data: data,
-    width: 600,
+    // plot container
+    width: 500,
+    height: 500,
+    autoFit: true, 
     padding: 'auto',
-    // appendPadding: 25,
-    color: 'green',
-    // data: data__.reverse(),
+    appendPadding: [10,10,10],
+    renderer: 'canvas',
+    pixelRatio: 2,
+    limitInPlot: false,
+    locale: 'en-US',
+    //  data mapping
+    data: data,
     xField: keyNames[3],
     yField: keyNames[0],
     isRange: false,
+    // graphic style
+    color: customProps.barColor,
+    intervalPadding: 1.5,
+    dodgePadding: 1.5,
+    minBarWidth: 1,
+    maxBarWidth: 100,
+    // barBackground: {
+    //     style: {
+    //       fill: '#000',
+    //       fillOpacity: 0.25,
+    //     }
+    // }, 
+    barWidthRatio: 1,
+    marginRatio:  1,       
+    state: {
+    active: {
+      animate: { duration: 100, easing: 'easeLinear' },
+      style: {
+        lineWidth: 2,
+      }
+    }
+    },
+    //  plot components
+    xAxis : 
+    {
+        top : false,
+        position :  'left',
+        title: {
+            text: customProps.xLabelText,
+            position: 'center',
+            offset: 40,
+            spacing: 40,
+            style: {
+                fillOpacity: 1,
+                // fontSize: customProps.xLabelFontSize,
+                strokeOpacity: 0.7,
+                shadowBlur: 10,
+                shadowOffsetX: 1,
+                shadowOffsetY: 1,
+                cursor: 'pointer'
+              },
+            autoRotate: false
+        },
+        verticalFactor: 1,
+        verticalLimitLength: 1,
+        label: {
+            style: {
+                fontSize: 10
+              },
+        },
+        line: {
+            // stroke : '#ddd',
+            lineWidth: 1,
+            lineDash : [ 0, 10],
+            opacity : 1,
+            cursor: 'pointer'
+        },
+        tickLine: {
+            style: {
+                fillOpacity: 0.5,
+                // stroke: 'black',
+                lineWidth: 1,
+                lineDash: [0, 10],
+                cursor: 'pointer'
+              },
+            alignTick: false,
+            length: 10
+        },
+        subTickLine:{
+            style: {
+                fillOpacity: 0.5,
+                stroke: 'black',
+                lineWidth: 1,
+                lineDash: [5, 10],
+                cursor: 'pointer'
+              },
+              count: customProps.subTickCount,
+              length: 5
+        },
+        nice: true,
+        min: customProps.minMaxPlot[0],
+        max: customProps.minMaxPlot[1],
+        // minLimit: 0,
+        // maxLimit:10000,
+        // tickCount:10,
+        tickInterval: customProps.tickInterval,
+        tickMethod: 'time',
+        animate: true,
+        // animateOption: 
+    },
+    yAxis : 
+    {
+        label: {
+            style: {
+                // fontSize: customProps.yLabelFontSize,
+                lineWidth: 1,
+                lineDash: [5, 10],
+                cursor: 'pointer'
+              },
+        },
+        line: {
+            lineWidth: 1,
+            lineDash : [ 1, 1],
+            opacity : 1,
+        },
+        animate: true,
+    },    
     label: {
-      position: 'middle',
+      // type: 'outer',
+      position: 'right',
+      offset: 40,
+      offsetX: 10,
+      offsetY:0,
+      style: {
+        // fill: 'black',
+        fontSize: 0.1,
+        opacity: `${customProps.barLabel ? 0.5 : 0}`,
+      },
+      autoRotate: false,
+      rotate: 0,
+      labelLine: true,
+      // labelEmit: true,
+      animate: true,
+      autoHide: true,
       layout: [
         {
           type: 'adjust-color',
         },
       ],
     },
+    tooltip: {
+        formatter: (datum :any ) => {
+            return { value: `${keyNames[1]} : ${datum.range[0]},\n ${keyNames[2]} : ${datum.range[1]},\n duration-range : ${datum.range[1]-datum.range[0]}`};
+        },
+        follow: true,
+        entralble: true,
+        // showTitle: true,
+        // title: String
+        position: 'left',
+        shared: true
+    },
+    // plot theme
+    theme: customProps.theme,
   };
 
   return (

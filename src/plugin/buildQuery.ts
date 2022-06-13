@@ -34,7 +34,6 @@ import { buildQueryContext, QueryFormData } from '@superset-ui/core';
  */
 export default function buildQuery(formData: QueryFormData) {
 
-  console.log("formData via buildQuery.ts", formData, typeof formData);
   const { cols: groupby } = formData;
   return buildQueryContext(formData, baseQueryObject => [
     {

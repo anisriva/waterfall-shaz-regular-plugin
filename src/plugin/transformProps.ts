@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { ChartProps, getMetricLabel, TimeseriesDataRecord } from '@superset-ui/core';
+import { ChartProps, TimeseriesDataRecord } from '@superset-ui/core';
 
 
 export default function transformProps(chartProps: ChartProps) {
@@ -50,31 +50,36 @@ export default function transformProps(chartProps: ChartProps) {
    * be seen until restarting the development server.
    */
   const { width, height, formData, queriesData } = chartProps;
-  const { boldText, headerFontSize, headerText } = formData;
   const data = queriesData[0].data as TimeseriesDataRecord[];
-
   const keyNames = [ formData.cols[0], formData.metric.label, formData.metric2.label, "range"];
 
-  // console.log(dimName, metricStartName, metricEndName);
-  // console.log('formData via TransformProps.ts', formData);
-  console.log('data via TransformProps.ts', data);
+  // curating data
   console.log('Adding range');
   data.forEach((obj : any)=>{
     const start = obj[keyNames[1]];
     const end = obj[keyNames[1]]+obj[keyNames[2]];
-    obj.range = [Math.round(start), Math.round(end)];
+    // rounding of till 2 decimal places
+    obj.range = [Math.round(start*100)/100, Math.round(end*100)/100];
   });
   console.log('Sorting data');
   data.sort((a,b) => (a[keyNames[1]] > b[keyNames[1]]) ? 1 : ((b[keyNames[1]] > a[keyNames[1]]) ? -1 : 0));
-  console.log('data via TransformProps.ts', data);
+
+  // configuring chart details
+  const customProps = {
+    xLabelText: formData.xLabelText,
+    theme: `${formData.darkMode ? "dark" : "light"}`,
+    minMaxPlot : formData.minMaxPlot,
+    tickInterval : formData.tickInterval,
+    subTickCount : formData.subTickCount,
+    showBarLabel :  formData.showBarLabel,
+    barColor : `rgba(${Object.keys(formData.barColor).map((k)=>{return formData.barColor[k]}).join(',')})`
+  }
+
   return {
     width,
     height,
     data,
     keyNames,
-    // and now your control data, manipulated as needed, and passed through as props!
-    boldText,
-    headerFontSize,
-    headerText,
+    customProps
   };
 }
