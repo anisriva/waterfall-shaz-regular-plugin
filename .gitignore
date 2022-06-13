@@ -111,3 +111,4 @@ esm
 lib
 
 .helpers/
+.DS_Store

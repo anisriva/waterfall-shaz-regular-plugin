@@ -208,7 +208,7 @@ export default function WaterfallShazRegularPlugin(props: WaterfallShazRegularPl
       style: {
         // fill: 'black',
         fontSize: 0.1,
-        opacity: `${customProps.barLabel ? 0.5 : 0}`,
+        opacity: `${customProps.showBarLabel ? 0.5 : 0}`,
       },
       autoRotate: false,
       rotate: 0,

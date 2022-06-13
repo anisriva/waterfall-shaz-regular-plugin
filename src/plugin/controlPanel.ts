@@ -190,7 +190,7 @@ const config: ControlPanelConfig = {
             name: 'min_max_plot',
             config: {
               type: 'BoundsControl',
-              default: 0,
+              default: [0, null],
               renderTrigger: true,
               // ^ this makes it apply instantaneously, without triggering a "run query" button
               label: t('Tick Range Bound'),
@@ -230,7 +230,7 @@ const config: ControlPanelConfig = {
               type: 'CheckboxControl',
               label: t('Dark Mode'),
               renderTrigger: true,
-              default: true,
+              default: false,
               description: t('A checkbox to change the chart theme.'),
             },
           },
@@ -241,7 +241,7 @@ const config: ControlPanelConfig = {
               type: 'CheckboxControl',
               label: t('Show Bar Labels'),
               renderTrigger: true,
-              default: false,
+              default: true,
               description: t('A checkbox to show the bar label metrics.'),
             },
           }
@@ -253,7 +253,7 @@ const config: ControlPanelConfig = {
               type: 'ColorPickerControl',
               label: t('Bar Color'),
               renderTrigger: true,
-              default: "#green",
+              default: {r:41, g: 112, b: 40, a: 100},
               description: t('Pick bar color'),
             },
           },          
